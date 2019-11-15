@@ -22,8 +22,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.android.trackmysleepquality.R
+import com.example.android.trackmysleepquality.database.SleepDatabase
 import com.example.android.trackmysleepquality.databinding.FragmentSleepTrackerBinding
+
+
 
 /**
  * A fragment with buttons to record start and end times for sleep, which are saved in
@@ -31,6 +35,9 @@ import com.example.android.trackmysleepquality.databinding.FragmentSleepTrackerB
  * (Because we have not learned about RecyclerView yet.)
  */
 class SleepTrackerFragment : Fragment() {
+    //Mark: the code in the line below no longer works, due to api changes since
+    //the tutorial came out
+//    private val ViewModelProviders: Any
 
     /**
      * Called when the Fragment is ready to display content to the screen.
@@ -43,6 +50,20 @@ class SleepTrackerFragment : Fragment() {
         // Get a reference to the binding object and inflate the fragment views.
         val binding: FragmentSleepTrackerBinding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_sleep_tracker, container, false)
+
+        val application = requireNotNull(this.activity).application
+
+        val dataSource = SleepDatabase.getInstance(application).sleepDatabaseDao
+
+        val viewModelFactory = SleepTrackerViewModelFactory(dataSource, application)
+
+// Mark: The codelab code is now depricated and no longer works;
+// see replacement code below
+//        val sleepTrackerViewModel =
+//                ViewModelProviders.of(
+//                        this, viewModelFactory).get(SleepTrackerViewModel::class.java)
+        val sleepTrackerViewModel =
+                ViewModelProvider(this, viewModelFactory).get(SleepTrackerViewModel::class.java)
 
         return binding.root
     }
