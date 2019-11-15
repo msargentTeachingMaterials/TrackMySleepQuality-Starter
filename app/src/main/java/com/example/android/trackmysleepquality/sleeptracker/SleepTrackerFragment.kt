@@ -57,7 +57,7 @@ class SleepTrackerFragment : Fragment() {
 
         val viewModelFactory = SleepTrackerViewModelFactory(dataSource, application)
 
-// Mark: The codelab code is now depricated and no longer works;
+// Mark: The codelab code is now deprecated and no longer works;
 // see replacement code below
 //        val sleepTrackerViewModel =
 //                ViewModelProviders.of(
